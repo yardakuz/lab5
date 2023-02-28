@@ -32,6 +32,14 @@ public class FunctionPoint implements Serializable, Cloneable {
         return y;
     }       //геттер для y
 
+    public void setX(double currX){
+        this.x = currX;
+    }
+
+    public void setY(double currY){
+        this.y = currY;
+    }
+
     @Override
     public String toString(){
         return ("(" + this.x + ";" + this.y + ")");
@@ -45,11 +53,15 @@ public class FunctionPoint implements Serializable, Cloneable {
     @Override
     public int hashCode(){
         return Objects.hash(this.x*29, this.y);
+        //Double x1 = x, y1 = y;
+        //return x1.hashCode()*31+y1.hashCode();
     }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+        FunctionPoint curr = new FunctionPoint(this.x, this.y);
+        return curr;
+        //return super.clone();
     }
 
 }

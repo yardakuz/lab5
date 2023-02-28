@@ -2,7 +2,7 @@ package functions;
 
 import java.io.Serializable;
 
-public class ArrayTabulatedFunction implements TabulatedFunction, Serializable {
+public class ArrayTabulatedFunction implements TabulatedFunction, Serializable, Cloneable {
     private FunctionPoint[] points;         //массив точек
 
     private int NumberPoints;           //кол-во точек в массиве
@@ -49,9 +49,10 @@ public class ArrayTabulatedFunction implements TabulatedFunction, Serializable {
             if(array[i].getX() > array[i+1].getX()) throw  new IllegalArgumentException();
         }
         this.NumberPoints = array.length;
+        this.points = new FunctionPoint[array.length];
         for (int i = 0; i < array.length; ++i)
         {
-
+            points[i] = array[i];
         }
     }
 
@@ -242,12 +243,23 @@ public class ArrayTabulatedFunction implements TabulatedFunction, Serializable {
 
     @Override
     public int hashCode(){
-        return 1;
+        int result = this.NumberPoints;
+        for(int i = 0; i < this.NumberPoints; ++i){
+            result += this.getPoint(i).hashCode() * 29;
+        }
+        return result;
     }
 
     @Override
     public Object clone() throws CloneNotSupportedException{
-        return super.clone();
+        //int size = this.getPointsCount();
+        FunctionPoint array[] = new FunctionPoint[this.NumberPoints];
+        for(int i = 0; i < this.NumberPoints; ++i){
+            array[i] = new FunctionPoint(this.getPoint(i));
+        }
+        ArrayTabulatedFunction curr = new ArrayTabulatedFunction(array);
+        return curr;
+        //return super.clone();
     }
 
     public void print() {
